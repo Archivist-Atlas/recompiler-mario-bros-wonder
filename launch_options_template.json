@@ -1,0 +1,49 @@
+{
+  "game_name": "Super Mario Bros. Wonder",
+  "version": "1.0.0 (PC Recomp)",
+  "icon": "game_icon.ico",
+  "icon_png": "game_icon.png",
+  "working_dir": ".",
+  "command": [
+    "wonder.exe"
+  ],
+  "options": [
+    {
+      "id": "handheld",
+      "category": "Affichage & Audio",
+      "env_var": "NX_HANDHELD",
+      "on_value": "1",
+      "off_value": null,
+      "label": "Mode Portable (720p) au lieu de Docked (1080p)",
+      "description": "Lance le jeu en résolution portable 720p au lieu du mode docké 1080p. Utile pour alléger la charge GPU.",
+      "default": false
+    },
+    {
+      "id": "mute",
+      "category": "Affichage & Audio",
+      "env_var": "NX_MUTE",
+      "on_value": "1",
+      "off_value": null,
+      "label": "Couper le son",
+      "description": "Désactive la sortie audio du jeu (XAudio2).",
+      "default": false
+    },
+    {
+      "id": "fsr",
+      "category": "Affichage & Audio",
+      "env_var": "NX_FSR",
+      "on_value": "1",
+      "off_value": null,
+      "label": "Activer AMD FidelityFX Super Resolution (FSR 1)",
+      "description": "Met à l'échelle le rendu vers 1080p avec FSR 1 au lieu d'un étirement simple.",
+      "default": false
+    }
+  ],
+  "env": {
+    "NX_DATA_ROOT": "data",
+    "NX_LOG": "data/nx.log",
+    "NX_MEM_LIMIT_GB": "8",
+    "NX_GPU": "discrete",
+    "NX_LANGUAGE": "fr"
+  }
+}

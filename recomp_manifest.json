@@ -1,0 +1,16 @@
+{
+  "name": "Super Mario Bros. Wonder",
+  "recompiler_name": "SMW PC Recomp (Belmante / SMW-Maker)",
+  "title_ids": [
+    "010015100B514000"
+  ],
+  "supported_versions": [
+    0,
+    327680
+  ],
+  "default_output_subdir": "Super Mario Bros. Wonder",
+  "script": "install.ps1",
+  "icon": "game_icon.ico",
+  "description": "Recompile Super Mario Bros. Wonder (base 1.0.0 depuis votre .nup) en exécutable Windows PC natif (Vulkan) à partir des sources de SMW-Maker, sans aucune partie PS4."
+}
+
