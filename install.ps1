@@ -1,4 +1,4 @@
-# Super Mario Bros. Wonder PC Recompiler for Windows (driven by Switch2Recomp)
+﻿# Super Mario Bros. Wonder PC Recompiler for Windows (driven by Switch2Recomp)
 # Uses bundled PC-only SwitchGamesRecomp (src/wonder) + Windows toolchain,
 # building ONLY the native Windows PC target (no PS4 / OpenOrbis / .pkg, no external download).
 param(
@@ -42,6 +42,11 @@ if (-not (Test-Path -LiteralPath $readyMarker) -or -not (Test-Path -LiteralPath 
     if (Test-Path -LiteralPath $wonderSrc) { Remove-Item -Recurse -Force $wonderSrc }
     Copy-Item -LiteralPath $srcWonder -Destination $wonderSrc -Recurse -Force
     "ok" | Set-Content -Encoding ASCII $readyMarker
+} elseif (-not (Test-Path -LiteralPath (Join-Path $wonderSrc "games\wonder\game.cpp"))) {
+    $srcGames = Join-Path $bundleRoot "src\wonder\games"
+    if (Test-Path -LiteralPath $srcGames) {
+        Copy-Item -LiteralPath $srcGames -Destination (Join-Path $wonderSrc "games") -Recurse -Force
+    }
 }
 
 $toolsDir = Join-Path $bundleRoot "tools"
