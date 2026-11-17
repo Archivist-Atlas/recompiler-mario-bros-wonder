@@ -1,4 +1,4 @@
-﻿# Super Mario Bros. Wonder PC Recompiler for Windows (driven by Switch2Recomp)
+# Super Mario Bros. Wonder PC Recompiler for Windows (driven by Switch2Recomp)
 # Uses bundled PC-only SwitchGamesRecomp (src/wonder) + Windows toolchain,
 # building ONLY the native Windows PC target (no PS4 / OpenOrbis / .pkg, no external download).
 param(
