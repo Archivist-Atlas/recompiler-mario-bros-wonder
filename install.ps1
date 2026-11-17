@@ -23,6 +23,16 @@ New-Item -ItemType Directory -Force -Path $Dir | Out-Null
 Say "installing into $Dir"
 
 $source = $PSScriptRoot
+$globalMsysInstaller = Join-Path $source "..\..\install_msys2.ps1"
+if (-not (Test-Path -LiteralPath "C:\msys64\clang64\bin\clang.exe") -or -not (Test-Path -LiteralPath "C:\msys64\clang64\bin\clang++.exe") -or -not (Test-Path -LiteralPath "C:\msys64\clang64\include\SDL3\SDL.h")) {
+    if (Test-Path -LiteralPath $globalMsysInstaller) {
+        & $globalMsysInstaller -Msys "C:\msys64"
+        if ($LASTEXITCODE -ne 0) {
+            Say "MSYS2 installation cancelled or failed; stopping recompilation."
+            exit 1
+        }
+    }
+}
 $bundleRoot = Join-Path $source "bundle"
 $builderRoot = Join-Path $Dir "_builder"
 $wonderSrc = Join-Path $builderRoot "src\wonder"
