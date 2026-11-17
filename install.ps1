@@ -159,8 +159,20 @@ if (-not (Test-Path -LiteralPath $spirvDone)) {
     if (Test-Path -LiteralPath $spirvDir) { Remove-Item -Recurse -Force $spirvDir }
     New-Item -ItemType Directory -Force -Path $spirvDir | Out-Null
     $shaderJobs = [Math]::Max(1, [Math]::Min([Environment]::ProcessorCount, 6))
-    & $dotnetExe $harnessDll --batch $shadersExt --out $spirvDir --jobs $shaderJobs --no-val
-    $rc = $LASTEXITCODE
+    $shaderDirs = @(Get-ChildItem -LiteralPath $shadersExt -Directory | Sort-Object Name)
+    if ($shaderDirs.Count -eq 0) {
+        & $dotnetExe $harnessDll --batch $shadersExt --out $spirvDir --jobs $shaderJobs --no-val
+        $rc = $LASTEXITCODE
+    } else {
+        $rc = 0
+        foreach ($sd in $shaderDirs) {
+            & $dotnetExe $harnessDll --batch $sd.FullName --out $spirvDir --jobs $shaderJobs --no-val
+            if ($LASTEXITCODE -ne 0) {
+                $rc = $LASTEXITCODE
+                break
+            }
+        }
+    }
     Pop-Location
     if ($rc -ne 0) { Say "spirv_harness failed"; exit 1 }
     "ok" | Set-Content -Encoding ASCII $spirvDone
