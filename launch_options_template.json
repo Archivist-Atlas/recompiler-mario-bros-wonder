@@ -46,5 +46,8 @@
     "NX_MEM_LIMIT_GB": "8",
     "NX_GPU": "discrete",
     "NX_LANGUAGE": "fr"
-  }
+  },
+  "expected_title_ids": [
+    "010015100B514000"
+  ]
 }
