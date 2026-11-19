@@ -1,4 +1,4 @@
-# Super Mario Bros. Wonder PC Recompiler for Windows (driven by Switch2Recomp)
+﻿# Super Mario Bros. Wonder PC Recompiler for Windows (driven by Switch2Recomp)
 # Uses bundled PC-only SwitchGamesRecomp (src/wonder) + Windows toolchain,
 # building ONLY the native Windows PC target (no PS4 / OpenOrbis / .pkg, no external download).
 param(
@@ -426,6 +426,7 @@ $launchConfigPath = Join-Path $Dir "launch_options.json"
 if (Test-Path -LiteralPath $launchTplPath) {
     $tpl = Get-Content -LiteralPath $launchTplPath -Raw -Encoding UTF8 | ConvertFrom-Json
     $tpl | Add-Member -NotePropertyName "working_dir" -NotePropertyValue $Dir -Force
+    $tpl | Add-Member -NotePropertyName "rom_path" -NotePropertyValue $Nup -Force
     $tpl | Add-Member -NotePropertyName "command" -NotePropertyValue @((Join-Path $Dir "wonder.exe")) -Force
     if ($tpl.env) {
         $tpl.env | Add-Member -NotePropertyName "NX_SAVE_DIR" -NotePropertyValue $globalSaveDir -Force
