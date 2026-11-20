@@ -85,10 +85,23 @@ $env:DOTNET_SYSTEM_GLOBALIZATION_INVARIANT = "1"
 $exefsDir = Join-Path $workDir "exefs"
 $romfsDir = Join-Path $dataRoot "extract\romfs"
 if (-not (Test-Path -LiteralPath (Join-Path $exefsDir "main")) -or -not (Test-Path -LiteralPath $romfsDir)) {
-    Say "extracting ExeFS and RomFS (base 1.0.0) from .nup..."
-    $extractPy = Join-Path $source "extract_nup.py"
-    & $pyExe $extractPy --nup $Nup --exefs $exefsDir --romfs $romfsDir
-    if ($LASTEXITCODE -ne 0) { Say "nup extraction failed"; exit 1 }
+    if (Test-Path -LiteralPath $Nup -PathType Container) {
+        $srcExefs = if (Test-Path -LiteralPath (Join-Path $Nup "exefs\main")) { Join-Path $Nup "exefs" } else { $Nup }
+        $srcRomfs = Join-Path $Nup "romfs"
+        if (-not (Test-Path -LiteralPath (Join-Path $srcExefs "main")) -or -not (Test-Path -LiteralPath $srcRomfs)) {
+            Say "error: folder must contain exefs/main and romfs/: $Nup"; exit 1
+        }
+        Say "copying ExeFS and RomFS from folder..."
+        if (Test-Path -LiteralPath $exefsDir) { Remove-Item -Recurse -Force $exefsDir }
+        if (Test-Path -LiteralPath $romfsDir) { Remove-Item -Recurse -Force $romfsDir }
+        Copy-Item -LiteralPath $srcExefs -Destination $exefsDir -Recurse -Force
+        Copy-Item -LiteralPath $srcRomfs -Destination $romfsDir -Recurse -Force
+    } else {
+        Say "extracting ExeFS and RomFS (base 1.0.0) from .nup..."
+        $extractPy = Join-Path $source "extract_nup.py"
+        & $pyExe $extractPy --nup $Nup --exefs $exefsDir --romfs $romfsDir
+        if ($LASTEXITCODE -ne 0) { Say "nup extraction failed"; exit 1 }
+    }
 }
 
 # ---- 3. Decompress NSOs to analysis/*.bin ----
